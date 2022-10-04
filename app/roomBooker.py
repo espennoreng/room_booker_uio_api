@@ -9,16 +9,20 @@ import time
 class RoomBooker:
     def __init__(self, username, password):
         try:
+            print("Starting the driver")
             self.username = username
             self.password = password
             chrome_options = Options()
             chrome_options.add_argument("window-size=1920x1480")
             chrome_options.add_argument("disable-dev-shm-usage")
             self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=ChromeDriverManager().install())
+            print("Driver started")
             self.driver.implicitly_wait(5000)
             self.link = "https://mail.uio.no/owa/#path=/calendar"
             self.driver.get(self.link)
             self.driver.implicitly_wait(5000)
+
+            print("Logging in")
 
             if self.driver.find_element(By.ID, "username"):
                 self.driver.find_element(By.ID, "username").send_keys(self.username)
@@ -26,6 +30,7 @@ class RoomBooker:
                 self.driver.find_element(By.ID, "password").submit()
 
             time.sleep(1)
+            print("Logged in")
             self.driver.get("https://mail.uio.no/owa/#path=/calendar/view/Month")
 
             while True:
