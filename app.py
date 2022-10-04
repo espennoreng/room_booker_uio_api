@@ -5,13 +5,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 cors = CORS(app)
-# Access-Control-Allow-Origin header
-app.config['CORS_HEADERS'] = {
-    "Content-Type": "application/json",
-    # Allow access from origin https://room-booker-uio.vercel.app/
-    "Access-Control-Allow-Origin": "https://room-booker-uio.vercel.app/",
-    
-}
+
 
 # available rooms
 @app.route('/get-rooms', methods=['POST'])
@@ -92,5 +86,5 @@ def book_room():
         except Exception as e:
             return jsonify({'message': 'Missing key in request', "error": str(e)}), 400
 
-
-
+if __name__ == '__main__':
+    app.run(debug=True)
