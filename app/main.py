@@ -1,9 +1,7 @@
 from datetime import datetime, timedelta
 from flask import Flask, request, jsonify
 from app.roomBooker import RoomBooker
-from app.getRooms import GetRooms
 from flask_cors import CORS, cross_origin
-import app.getRooms
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -12,7 +10,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/get-rooms', methods=['POST'])
 @cross_origin()
 
-def get_rooms():
+def get_available_rooms():
     if request.method == 'POST':
         data = request.get_json()
         print(data)
@@ -22,10 +20,6 @@ def get_rooms():
             duration = data['duration']
             password = data['password']
             username = data['username']
-            room = ''
-            attendees = ''
-            text = ''
-            title = ''
 
             date_time = datetime.strptime(date_time, '%Y-%m-%dT%H:%M:%S.%fZ')
             year, month, day = date_time.year, date_time.month, date_time.day
@@ -33,9 +27,9 @@ def get_rooms():
             start_time = date_time.strftime('%H:%M')
             end_time = (date_time + timedelta(hours=duration)).strftime('%H:%M')
 
-            rooms = GetRooms(building, year, month, day, start_time, end_time, password, username)
-            available_rooms = rooms.get_available_rooms()
-    
+            room_booker = RoomBooker(username, password)
+
+            available_rooms = room_booker.get_available_rooms(building, year, month, day, start_time, end_time)
 
             return jsonify(available_rooms)
 
@@ -68,9 +62,6 @@ def book_room():
             start_time = date_time.strftime('%H:%M')
             end_time = (date_time + timedelta(hours=duration)).strftime('%H:%M')
 
-          
-
-            '''
             room_booker = RoomBooker(username, password)
             try:
                 book_room = room_booker.book(building, room, year, month, day, start_time, end_time, title, text, attendees, True)
@@ -96,11 +87,9 @@ def book_room():
             else:
                 return jsonify({'status': 'failed'}), 400
 
-        '''
+
         except Exception as e:
             return jsonify({'message': 'Missing key in request', "error": str(e)}), 400
-
-
 
 @app.route('/')
 def index():

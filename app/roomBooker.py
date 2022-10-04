@@ -15,6 +15,8 @@ class RoomBooker:
             chrome_options = Options()
             chrome_options.add_argument("window-size=1920,1080")
             chrome_options.add_argument("disable-dev-shm-usage")
+            chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36")
+
             self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=ChromeDriverManager().install())
             print("Driver started")
             self.driver.implicitly_wait(5000)
@@ -54,8 +56,8 @@ class RoomBooker:
    
         # find all buttons inside div with class _wx_s
         buttons = self.driver.find_element(By.CLASS_NAME, "_wx_s").find_elements(By.TAG_NAME, "button")
-        self.driver.implicitly_wait(5000)
-        buttons[0].click()
+        if len(buttons) > 0:
+            buttons[0].click()
 
 
         print("Passing in the time")
