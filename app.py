@@ -86,5 +86,12 @@ def book_room():
         except Exception as e:
             return jsonify({'message': 'Missing key in request', "error": str(e)}), 400
 
+@app.route('/')
+def index():
+    # A welcome message to test our server
+    return "<h1>Welcome to the uio_room_book_api!</h1>"
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Threaded option to enable multiple instances for multiple user access support
+    app.run(threaded=True, port=5000)
