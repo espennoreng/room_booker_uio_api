@@ -1,1 +1,2 @@
-/venv
+# do not include the venv directory in the package
+exclude = venv
