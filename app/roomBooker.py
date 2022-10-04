@@ -267,5 +267,5 @@ class RoomBooker:
             return False
 
         finally:
-           # self.driver.quit()
-           print("Done")
+            time.sleep(2)
+            self.driver.quit()
