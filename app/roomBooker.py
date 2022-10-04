@@ -245,30 +245,19 @@ class RoomBooker:
         print("Sent the meeting request")
 
 
-    def book(self, building, room, year, month, day, start_time, end_time, title, text, attendees, send):
+    def book(self, building, room, year, month, day, start_time, end_time, title, text, attendees):
         try:
-            if send == True:
-                self.book_room(title,building, room)
-                self.book_time(year, month, day, start_time, end_time)
+            self.book_room(title,building, room)
+            self.book_time(year, month, day, start_time, end_time)
 
-                if text != "":
-                    self.set_message(text)
+            if text != "":
+                self.set_message(text)
 
-                if len(attendees) != 0:
-                    self.add_people(attendees)
+            if len(attendees) != 0:
+                self.add_people(attendees)
 
-                self.send()
-                return True
+            self.send()
+            return True
 
-            else:
-                self.book_room(title,building, room)
-                self.book_time(year, month, day, start_time, end_time)
-
-                if text != "":
-                    self.set_message(text)
-                if len(attendees) != 0:
-                    self.add_people(attendees)
-
-                return True
         except Exception as e:
             return False

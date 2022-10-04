@@ -64,7 +64,7 @@ def book_room():
 
             room_booker = RoomBooker(username, password)
             try:
-                book_room = room_booker.book(building, room, year, month, day, start_time, end_time, title, text, attendees, True)
+                book_room = room_booker.book(building, room, year, month, day, start_time, end_time, title, text, attendees)
                 if book_room:
                     print("room booked")
                 else:
