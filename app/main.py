@@ -33,8 +33,9 @@ def get_available_rooms():
 
             return jsonify(available_rooms)
 
-        except KeyError:
-            return jsonify({'message': 'Missing key in request'}), 400
+        except Exception as e:
+            print(e)
+            return jsonify({'message': 'Missing key in request', 'error': str(e)}), 400
 
 
 
