@@ -9,7 +9,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/get-rooms', methods=['POST'])
 @cross_origin()
-
 def get_available_rooms():
     if request.method == 'POST':
         data = request.get_json()
