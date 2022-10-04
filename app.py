@@ -8,8 +8,9 @@ cors = CORS(app)
 # Access-Control-Allow-Origin header
 app.config['CORS_HEADERS'] = {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type",
+    # Allow access from origin https://room-booker-uio.vercel.app/
+    "Access-Control-Allow-Origin": "https://room-booker-uio.vercel.app/",
+    
 }
 
 # available rooms
