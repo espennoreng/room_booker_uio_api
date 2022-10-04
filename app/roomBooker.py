@@ -10,10 +10,11 @@ class RoomBooker:
     def __init__(self, username, password):
         self.username = username
         self.password = password
-        self.options = Options()
-        self.options.add_experimental_option("detach", True)
-        self.service = Service(ChromeDriverManager().install())
-        self.driver = webdriver.Chrome(service=self.service, options=self.options)
+        chrome_options = Options()
+        chrome_options.binary_location = GOOGLE_CHROME_BIN
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--no-sandbox')
+        self.driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
         self.driver.implicitly_wait(5000)
         self.link = "https://mail.uio.no/owa/#path=/calendar"
         self.driver.get(self.link)
