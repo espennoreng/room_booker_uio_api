@@ -8,33 +8,37 @@ import time
 
 class RoomBooker:
     def __init__(self, username, password):
-        self.username = username
-        self.password = password
-        chrome_options = Options()
-        chrome_options.add_argument("window-size=1920x1480")
-        chrome_options.add_argument("disable-dev-shm-usage")
-        self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=ChromeDriverManager().install())
-        self.driver.implicitly_wait(5000)
-        self.link = "https://mail.uio.no/owa/#path=/calendar"
-        self.driver.get(self.link)
-        self.driver.implicitly_wait(5000)
+        try:
+            self.username = username
+            self.password = password
+            chrome_options = Options()
+            chrome_options.add_argument("window-size=1920x1480")
+            chrome_options.add_argument("disable-dev-shm-usage")
+            self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=ChromeDriverManager().install())
+            self.driver.implicitly_wait(5000)
+            self.link = "https://mail.uio.no/owa/#path=/calendar"
+            self.driver.get(self.link)
+            self.driver.implicitly_wait(5000)
 
-        if self.driver.find_element(By.ID, "username"):
-            self.driver.find_element(By.ID, "username").send_keys(self.username)
-            self.driver.find_element(By.ID, "password").send_keys(self.password)
-            self.driver.find_element(By.ID, "password").submit()
+            if self.driver.find_element(By.ID, "username"):
+                self.driver.find_element(By.ID, "username").send_keys(self.username)
+                self.driver.find_element(By.ID, "password").send_keys(self.password)
+                self.driver.find_element(By.ID, "password").submit()
 
-        time.sleep(1)
-        self.driver.get("https://mail.uio.no/owa/#path=/calendar/view/Month")
+            time.sleep(1)
+            self.driver.get("https://mail.uio.no/owa/#path=/calendar/view/Month")
 
-        while True:
-            if self.driver.current_url != "https://mail.uio.no/owa/#path=/calendar/view/Month":
-                self.driver.get("https://mail.uio.no/owa/#path=/calendar/view/Month")
-                time.sleep(1)
-            else:
-                break
+            while True:
+                if self.driver.current_url != "https://mail.uio.no/owa/#path=/calendar/view/Month":
+                    self.driver.get("https://mail.uio.no/owa/#path=/calendar/view/Month")
+                    time.sleep(1)
+                else:
+                    break
 
-        # wait and check if the calendar is loaded
+            # wait and check if the calendar is loaded
+        except Exception as e:
+            print(e)
+            self.driver.quit()
 
 
     def get_available_rooms(self, building_, year, month, day, start_time, end_time):
