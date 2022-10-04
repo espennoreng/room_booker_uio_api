@@ -52,7 +52,9 @@ class RoomBooker:
         print("Getting available rooms")
     
         if self.driver.find_element(By.CLASS_NAME, "_wx_s"):
+            print("Found the button")
             self.driver.find_element(By.CLASS_NAME, "_wx_s").find_element(By.TAG_NAME, "button").click()
+            print("Clicked the button")
 
         print("Passing in the time")
         self.driver.implicitly_wait(5000)
