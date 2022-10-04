@@ -55,6 +55,12 @@ class RoomBooker:
             print("Found the button")
             self.driver.find_element(By.CLASS_NAME, "_wx_s").find_element(By.TAG_NAME, "button").click()
             print("Clicked the button")
+        else:
+            print("Did not find the button, trying another way")
+            ## find button with span inside it with text"New" 
+            self.driver.find_element(By.XPATH, "//button/span[contains(text(), 'New')]").click()
+            print("Clicked the button")
+
 
         print("Passing in the time")
         self.driver.implicitly_wait(5000)
