@@ -40,6 +40,8 @@ class RoomBooker:
                 else:
                     break
 
+            print("Calendar loaded")
+
             # wait and check if the calendar is loaded
         except Exception as e:
             print(e)
@@ -47,14 +49,19 @@ class RoomBooker:
 
 
     def get_available_rooms(self, building_, year, month, day, start_time, end_time):
+        print("Getting available rooms")
     
         if self.driver.find_element(By.CLASS_NAME, "_wx_s"):
             self.driver.find_element(By.CLASS_NAME, "_wx_s").find_element(By.TAG_NAME, "button").click()
 
+        print("Passing in the time")
         self.driver.implicitly_wait(5000)
+
         self.book_time(year, month, day, start_time, end_time)
+        print("time checked")
         time.sleep(1)
 
+        print("Finding the building")
         self.driver.implicitly_wait(5000)
         self.driver.find_element(By.CSS_SELECTOR, "form[action='javascript:void(0);']").find_element(By.TAG_NAME, "input").click()
         self.driver.implicitly_wait(5000)
@@ -83,6 +90,8 @@ class RoomBooker:
                 building_found = True
                 break
 
+        print("Building found")
+        
         if not building_found:
             print("Building not found")
             return
