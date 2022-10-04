@@ -57,6 +57,9 @@ class GetRooms:
 
         # find all buttons inside div with class _wx_s
         buttons = self.driver.find_element(By.CLASS_NAME, "_wx_s").find_elements(By.TAG_NAME, "button")
+        for button in buttons:
+            print("knapp")
+        
         self.driver.implicitly_wait(5000)
         buttons[0].click()
 
