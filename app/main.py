@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta
 from flask import Flask, request, jsonify
 from app.roomBooker import RoomBooker
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
-
-# available rooms
 @app.route('/get-rooms', methods=['POST'])
+@cross_origin()
 
 def get_available_rooms():
     if request.method == 'POST':
@@ -39,7 +39,7 @@ def get_available_rooms():
 
 
 @app.route('/book', methods=['POST'])
-
+@cross_origin()
 def book_room():
     if request.method == "POST":
         data = request.get_json()
