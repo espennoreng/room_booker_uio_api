@@ -171,6 +171,7 @@ class RoomBooker:
 
     def book_time(self, year, month, day, start_time_, end_time_):
         self.driver.implicitly_wait(5000)
+        print("Selecting the time")
         self.driver.find_element(By.CLASS_NAME, "startDatePicker").find_element(By.TAG_NAME, "button").click()
         self.driver.implicitly_wait(5000)
         buttons = self.driver.find_element(By.CLASS_NAME, "_dx_8").find_elements(By.TAG_NAME, "button")
@@ -178,7 +179,7 @@ class RoomBooker:
         year_month= buttons[1].get_attribute("aria-label").split(" ")
         m = year_month[1]
         y = year_month[0]
-
+        print("Current month is " + m + " and current year is " + y)
         while True:
             if str(y) == str(year) and str(m) == str(month):
                 break
@@ -189,7 +190,7 @@ class RoomBooker:
                 month_year = buttons[1].get_attribute("aria-label").split(" ")
                 m = month_year[1]
                 y = month_year[0]
-
+        print("Found the month and year")
         # find the correct day
         self.driver.implicitly_wait(5000)
 
@@ -209,22 +210,29 @@ class RoomBooker:
                 if t == str(day):
                     day_.click()
                     break
-
+        print("Found the day")
         # change the start time
         self.driver.implicitly_wait(5000)
         start_time = self.driver.find_element(By.CLASS_NAME, "startTimePicker").find_element(By.TAG_NAME, "input")
+        # click the start time
+        start_time.click()
+        print("Found the start time")
         for i in range(5):
             start_time.send_keys(Keys.BACKSPACE)
         self.driver.implicitly_wait(5000)
         start_time.send_keys(start_time_)
-
+        print("Changed the start time")
         # Change the end time 
         self.driver.implicitly_wait(5000)
         end_time = self.driver.find_elements(By.CLASS_NAME, "_dx_q")[-1].find_element(By.TAG_NAME, "input")
+        # click the end time
+        end_time.click()
         for i in range(5):
             end_time.send_keys(Keys.BACKSPACE)
         self.driver.implicitly_wait(5000)
         end_time.send_keys(end_time_)
+
+        print("Changed the time")
 
     def set_message(self, text):
         self.driver.implicitly_wait(5000)
