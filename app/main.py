@@ -63,8 +63,12 @@ def book_room():
             end_time = (date_time + timedelta(hours=duration)).strftime('%H:%M')
 
             room_booker = RoomBooker(username, password)
-            book_room = room_booker.book(building, room, year, month, day, start_time, end_time, title, text, attendees, True)
+            try:
+                book_room = room_booker.book(building, room, year, month, day, start_time, end_time, title, text, attendees, True)
             
+            except Exception as e:
+                print(e)
+                return jsonify({'message': 'Error booking room', 'error': str(e)}), 400
 
             if book_room:
                 return jsonify({
