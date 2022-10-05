@@ -19,7 +19,7 @@ def get_available_rooms():
             duration = data['duration']
             password = data['password']
             username = data['username']
-
+            # hei
             date_time = datetime.strptime(date_time, '%Y-%m-%dT%H:%M:%S.%fZ')
             year, month, day = date_time.year, date_time.month, date_time.day
             month = datetime.strptime(str(month), "%m").strftime("%B")
