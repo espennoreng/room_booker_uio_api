@@ -4,14 +4,17 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from app.decrypt import Decrypt
 import time
 
 class RoomBooker:
-    def __init__(self, username, password):
+    def __init__(self, username_hash, password_hash):
         try:
+            d = Decrypt()
+            self.username = d.decrypt(username_hash)
+            self.password = d.decrypt(password_hash)
             print("Starting the driver")
-            self.username = username
-            self.password = password
+
             chrome_options = Options()
             chrome_options.add_argument("window-size=1920,1080")
             chrome_options.add_argument("disable-dev-shm-usage")
