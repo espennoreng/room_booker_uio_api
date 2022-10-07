@@ -9,8 +9,7 @@ import os
 
 class Decrypt:
     def __init__(self):
-        print(os.environ['DECRYPT_KEY'])
-        self.key = hashlib.sha256(os.environ['DECRYPT_KEY']).digest()
+        self.key = hashlib.sha256(os.environ['DECRYPT_KEY'].encode('utf8')).digest()
 
     def encrypt(self, raw):
         BS = AES.block_size
