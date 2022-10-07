@@ -14,11 +14,12 @@ def get_available_rooms():
         data = request.get_json()
         print(data)
         try:
+            password = data['password']
+            username = data['username']
             building = data['building']
             date_time = data['date']
             duration = data['duration']
-            password = data['password']
-            username = data['username']
+
             # hei
             date_time = datetime.strptime(date_time, '%Y-%m-%dT%H:%M:%S.%fZ')
             year, month, day = date_time.year, date_time.month, date_time.day

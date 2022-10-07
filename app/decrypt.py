@@ -2,14 +2,19 @@ import base64
 import hashlib
 from Cryptodome.Cipher import AES
 from Cryptodome.Random import get_random_bytes
-import os
+from dotenv import load_dotenv
 
+import os
 
 
 
 class Decrypt:
     def __init__(self):
-        self.key = hashlib.sha256(os.environ['DECRYPT_KEY'].encode('utf8')).digest()
+        load_dotenv()
+        decrypt_key = os.environ['DECRYPT_KEY']
+        if not decrypt_key:
+            decrypt_key = os.getenv('DECRYPT_KEY')
+        self.key = hashlib.sha256(decrypt_key.encode('utf8')).digest()
 
     def encrypt(self, raw):
         BS = AES.block_size
