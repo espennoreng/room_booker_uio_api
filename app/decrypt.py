@@ -9,6 +9,7 @@ import os
 
 class Decrypt:
     def __init__(self):
+        print(os.environ['DECRYPT_KEY'])
         self.key = hashlib.sha256(os.environ['DECRYPT_KEY']).digest()
 
     def encrypt(self, raw):
