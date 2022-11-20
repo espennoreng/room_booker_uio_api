@@ -30,6 +30,7 @@ class RoomBooker:
         except Exception as e:
             print(e)
             print("Could not start the driver")
+            self.driver.quit()
 
     def is_logged_in(self):
         print("Checking if logged in")
