@@ -27,7 +27,7 @@ class RoomBooker:
 
         self.driver = webdriver.Chrome(
             service=Service(executable_path=os.environ.get(
-                "CHROMEDRIVER_PATH"), option=chrome_options)
+                "CHROMEDRIVER_PATH"), options=chrome_options)
         )
 
         load_dotenv()
