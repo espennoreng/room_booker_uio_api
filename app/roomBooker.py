@@ -1,5 +1,4 @@
 import os
-import schedule
 from datetime import datetime, timedelta
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -10,7 +9,6 @@ from selenium.webdriver.common.keys import Keys
 import time
 from dotenv import load_dotenv
 
-import sched
 import time
 from app.decrypt import Decrypt
 
@@ -367,5 +365,3 @@ class RoomBooker:
                 rooms, duration, last_room_and_duration, first_time)
             first_time = False
 
-
-s
