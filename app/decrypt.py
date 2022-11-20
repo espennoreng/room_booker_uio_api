@@ -29,7 +29,3 @@ class Decrypt:
         iv = enc[:AES.block_size]
         cipher = AES.new(self.key, AES.MODE_CFB, iv)
         return unpad(base64.b64decode(cipher.decrypt(enc[AES.block_size:])).decode('utf8'))
-
-
-if __name__ == "__main__":
-    pass

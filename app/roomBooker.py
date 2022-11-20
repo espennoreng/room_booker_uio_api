@@ -334,6 +334,7 @@ class RoomBooker:
 
         durations = [4, 3, 2, 1, 0.5]
         last_room_and_duration = {}
+        first_time = True
         for duration in durations:
             building = "Kollokvierom i Ole-Johan Dahls hus"
             year = datetime.now().year
@@ -362,7 +363,9 @@ class RoomBooker:
                         if duration > last_room_and_duration[room]:
                             last_room_and_duration[room] = duration
 
-            update_available_rooms(rooms, duration, last_room_and_duration)
+            update_available_rooms(
+                rooms, duration, last_room_and_duration, first_time)
+            first_time = False
 
 
 if __name__ == "__main__":

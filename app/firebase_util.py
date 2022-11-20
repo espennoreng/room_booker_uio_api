@@ -49,7 +49,7 @@ def set_available_rooms(available_rooms):
     print('done setting available rooms')
 
 
-def update_available_rooms(available_rooms, duration: int, last_room_and_duration: dict):
+def update_available_rooms(available_rooms, duration: int, last_room_and_duration: dict, first_time: bool = False):
 
     all_ojd_rooms = get_all_uio_rooms()['OJD']
 
@@ -65,7 +65,7 @@ def update_available_rooms(available_rooms, duration: int, last_room_and_duratio
             "available": True,
             "available_duration": duration
         }
-        if len(last_room_and_duration) < 1:
+        if first_time:
             data['last_updated'] = firestore.SERVER_TIMESTAMP
 
         if (room in last_room_and_duration.keys()):

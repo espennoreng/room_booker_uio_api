@@ -18,7 +18,7 @@ room = RoomBooker()
 
 
 def run_scheduler():
-    schedule.every(30).minutes.do(room.update_availability)
+    schedule.every(2).minutes.do(room.update_availability)
     while True:
         schedule.run_pending()
         time.sleep(1)

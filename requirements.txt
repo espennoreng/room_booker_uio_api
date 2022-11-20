@@ -66,6 +66,7 @@ ttkwidgets==0.12.1
 uritemplate==4.1.1
 urllib3==1.26.12
 virtualenv==20.16.5
+waitress==2.1.2
 webdriver-manager==3.8.3
 Werkzeug==2.2.2
 wsproto==1.2.0
