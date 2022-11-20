@@ -1,15 +1,37 @@
 from datetime import datetime, timedelta
+import time
+import schedule
 from flask import Flask, request, jsonify
 from app.roomBooker import RoomBooker
 from flask_cors import CORS, cross_origin
+from app.decrypt import Decrypt
+from threading import Thread
+
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+room = RoomBooker()
+
+# create a thread to run the scheduler
+
+
+def run_scheduler():
+    schedule.every(30).seconds.do(room.update_availability)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+
+# start the thread
+t = Thread(target=run_scheduler)
+t.start()
+
+
 @app.route('/get-rooms', methods=['POST'])
 @cross_origin()
-def get_available_rooms():
+def get_available_rooms(room=room):
     if request.method == 'POST':
         data = request.get_json()
         print(data)
@@ -25,18 +47,24 @@ def get_available_rooms():
             year, month, day = date_time.year, date_time.month, date_time.day
             month = datetime.strptime(str(month), "%m").strftime("%B")
             start_time = date_time.strftime('%H:%M')
-            end_time = (date_time + timedelta(hours=duration)).strftime('%H:%M')
+            end_time = (date_time + timedelta(hours=duration)
+                        ).strftime('%H:%M')
 
-            room_booker = RoomBooker(username, password)
+            # if roomboker does not exist create one,
+            if room.is_logged_in() is False:
+                d = Decrypt()
+                password = d.decrypt(password)
+                username = d.decrypt(username)
+                room.login(password, username)
 
-            available_rooms = room_booker.get_available_rooms(building, year, month, day, start_time, end_time)
+            available_rooms = room.get_available_rooms(
+                building, year, month, day, start_time, end_time)
 
             return jsonify(available_rooms)
 
         except Exception as e:
             print(e)
             return jsonify({'message': 'Missing key in request', 'error': str(e)}), 400
-
 
 
 @app.route('/book', methods=['POST'])
@@ -60,11 +88,13 @@ def book_room():
             year, month, day = date_time.year, date_time.month, date_time.day
             month = datetime.strptime(str(month), "%m").strftime("%B")
             start_time = date_time.strftime('%H:%M')
-            end_time = (date_time + timedelta(hours=duration)).strftime('%H:%M')
+            end_time = (date_time + timedelta(hours=duration)
+                        ).strftime('%H:%M')
 
             room_booker = RoomBooker(username, password)
             try:
-                book_room = room_booker.book(building, room, year, month, day, start_time, end_time, title, text, attendees)
+                book_room = room_booker.book(
+                    building, room, year, month, day, start_time, end_time, title, text, attendees)
                 if book_room:
                     print("room booked")
                 else:
@@ -75,7 +105,7 @@ def book_room():
 
             if book_room:
                 return jsonify({
-                    'status': 'success', 
+                    'status': 'success',
                     'info': {
                         'building': building,
                         'room': room,
@@ -90,9 +120,33 @@ def book_room():
             else:
                 return jsonify({'status': 'failed'}), 400
 
-
         except Exception as e:
             return jsonify({'message': 'Missing key in request', "error": str(e)}), 400
+
+
+@app.route('/update-rooms', methods=['POST'])
+@cross_origin()
+def update_rooms():
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+        try:
+            password = data['password']
+            username = data['username']
+
+            if room.is_logged_in() is False:
+                d = Decrypt()
+                password = d.decrypt(password)
+                username = d.decrypt(username)
+                room.login(password, username)
+
+            room.update_availability()
+
+            return jsonify({'status': 'success'}), 200
+
+        except Exception as e:
+            return jsonify({'message': 'Missing key in request', 'error': str(e)}), 400
+
 
 @app.route('/')
 def index():
@@ -102,5 +156,5 @@ def index():
 
 if __name__ == "__main__":
     from waitress import serve
-    serve(app, host="0.0.0.0", port=8080)
 
+    serve(app, host="0.0.0.0", port=8080)

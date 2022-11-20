@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 import os
 
 
-
 class Decrypt:
     def __init__(self):
         load_dotenv()
@@ -18,20 +17,20 @@ class Decrypt:
 
     def encrypt(self, raw):
         BS = AES.block_size
-        pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
+        def pad(s): return s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
         raw = base64.b64encode(pad(raw).encode('utf8'))
         iv = get_random_bytes(AES.block_size)
-        cipher = AES.new(key= self.key, mode= AES.MODE_CFB,iv= iv)
+        cipher = AES.new(key=self.key, mode=AES.MODE_CFB, iv=iv)
         return base64.b64encode(iv + cipher.encrypt(raw))
 
     def decrypt(self, enc):
         # dec = base64.b64decode(enc)
-        unpad = lambda s: s[:-ord(s[-1:])]
+        def unpad(s): return s[:-ord(s[-1:])]
         enc = base64.b64decode(enc)
         iv = enc[:AES.block_size]
         cipher = AES.new(self.key, AES.MODE_CFB, iv)
         return unpad(base64.b64decode(cipher.decrypt(enc[AES.block_size:])).decode('utf8'))
-        
 
 
-        
+if __name__ == "__main__":
+    pass
