@@ -14,6 +14,7 @@ filelock==3.8.0
 firebase-admin==6.0.1
 Flask==2.2.2
 Flask-Cors==3.0.10
+gunicorn==19.0.0
 google-api-core==2.10.2
 google-api-python-client==2.66.0
 google-auth==2.14.1
