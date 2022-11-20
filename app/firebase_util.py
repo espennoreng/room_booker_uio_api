@@ -57,14 +57,16 @@ def update_available_rooms(available_rooms, duration: int, last_room_and_duratio
             room_name + ' ' + room_id)
         data = {
             "available": True,
-            "last_updated": firestore.SERVER_TIMESTAMP,
+            "available_duration": duration
         }
-        if (room in last_room_and_duration.keys()):
-            # if duration is bigger than the one in firestore
-            if duration > last_room_and_duration[room] or len(last_room_and_duration) == 0:
-                data['available_duration'] = duration
+        if len(last_room_and_duration) < 1:
+            data['last_updated'] = firestore.SERVER_TIMESTAMP
 
-                doc_ref.update(data)
+        if (room in last_room_and_duration.keys()):
+            if duration < last_room_and_duration[room]:
+                data['available_duration'] = last_room_and_duration[room]
+
+        doc_ref.update(data)
 
     for room in all_ojd_rooms:
         if room not in available_rooms:
