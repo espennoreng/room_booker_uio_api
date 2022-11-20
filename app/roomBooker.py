@@ -17,7 +17,7 @@ from app.firebase_util import update_available_rooms
 
 class RoomBooker:
     def __init__(self):
-        load_dotenv()
+        load_dotenv()  # load environment variables
 
         chrome_options = Options()
         chrome_options.add_argument("window-size=1920,1080")
