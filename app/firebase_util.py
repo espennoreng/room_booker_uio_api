@@ -1,10 +1,16 @@
+import os
+import json
+
+from dotenv import load_dotenv
 import firebase_admin
 from firebase_admin import firestore, credentials
 from app.data import get_all_uio_rooms
 
+load_dotenv()
+cred = credentials.Certificate(json.loads(os.getenv('FIREBASE_PRIVATE') if os.getenv(
+    'FIREBASE_PRIVATE') else os.environ['FIREBASE_PRIVATE']))
 
-# connect to firestore
-cred = credentials.Certificate('app/sa.json')
+
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 doc_ref = db.collection(u'rooms').document(u'available_rooms')

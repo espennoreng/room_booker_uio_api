@@ -24,7 +24,6 @@ class Decrypt:
         return base64.b64encode(iv + cipher.encrypt(raw))
 
     def decrypt(self, enc):
-        # dec = base64.b64decode(enc)
         def unpad(s): return s[:-ord(s[-1:])]
         enc = base64.b64decode(enc)
         iv = enc[:AES.block_size]
