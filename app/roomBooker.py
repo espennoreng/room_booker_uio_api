@@ -26,7 +26,9 @@ class RoomBooker:
             "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36")
 
         self.driver = webdriver.Chrome(
-            service=Service(ChromeDriverManager().install()), options=chrome_options)
+            service=Service(executable_path=os.environ.get(
+                "CHROMEDRIVER_PATH"), option=chrome_options)
+        )
 
         load_dotenv()
 
