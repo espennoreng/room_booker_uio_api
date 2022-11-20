@@ -355,7 +355,12 @@ class RoomBooker:
                 building, year, month, day, start_time, end_time)
 
             if len(rooms) != 0:
-                last_room_and_duration[rooms[0]] = duration
+                for room in rooms:
+                    if room not in last_room_and_duration.keys():
+                        last_room_and_duration[room] = duration
+                    else:
+                        if duration > last_room_and_duration[room]:
+                            last_room_and_duration[room] = duration
 
             update_available_rooms(rooms, duration, last_room_and_duration)
 
