@@ -20,13 +20,14 @@ class RoomBooker:
         chrome_options = Options()
         chrome_options.add_argument("window-size=1920,1080")
         chrome_options.add_argument("disable-dev-shm-usage")
-        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") if os.environ.get(
+            "GOOGLE_CHROME_BIN") else os.getenv("GOOGLE_CHROME_BIN")
 
         chrome_options.add_argument(
             "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36")
 
         self.driver = webdriver.Chrome(executable_path=os.environ.get(
-            "CHROMEDRIVER_PATH"), options=chrome_options)
+            "CHROMEDRIVER_PATH") if os.environ.get("CHROMEDRIVER_PATH") else os.getenv("CHROMEDRIVER_PATH"), options=chrome_options)
 
         load_dotenv()
 
