@@ -17,6 +17,8 @@ from app.firebase_util import update_available_rooms
 
 class RoomBooker:
     def __init__(self):
+        load_dotenv()
+
         chrome_options = Options()
         chrome_options.add_argument("window-size=1920,1080")
         chrome_options.add_argument("disable-dev-shm-usage")
@@ -28,8 +30,6 @@ class RoomBooker:
 
         self.driver = webdriver.Chrome(executable_path=os.environ.get(
             "CHROMEDRIVER_PATH") if os.environ.get("CHROMEDRIVER_PATH") else os.getenv("CHROMEDRIVER_PATH"), options=chrome_options)
-
-        load_dotenv()
 
     def is_logged_in(self):
         print("Checking if logged in")
