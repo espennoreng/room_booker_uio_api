@@ -368,5 +368,4 @@ class RoomBooker:
             first_time = False
 
 
-if __name__ == "__main__":
-    pass
+s
