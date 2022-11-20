@@ -20,11 +20,15 @@ class RoomBooker:
         chrome_options = Options()
         chrome_options.add_argument("window-size=1920,1080")
         chrome_options.add_argument("disable-dev-shm-usage")
+
         chrome_options.add_argument(
             "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36")
 
         self.driver = webdriver.Chrome(
-            chrome_options=chrome_options, executable_path=ChromeDriverManager().install())
+            service=Service(ChromeDriverManager().install()), options=chrome_options)
+
+        self.driver.implicitly_wait(5000)
+
                 
 
 
