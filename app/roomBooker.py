@@ -17,14 +17,19 @@ from app.firebase_util import update_available_rooms
 
 class RoomBooker:
     def __init__(self):
-        self.chrome_options = Options()
-        self.chrome_options.add_argument("window-size=1920,1080")
-        self.chrome_options.add_argument("disable-dev-shm-usage")
-        self.chrome_options.add_argument(
-            "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36")
+        try:
+            self.chrome_options = Options()
+            self.chrome_options.add_argument("window-size=1920,1080")
+            self.chrome_options.add_argument("disable-dev-shm-usage")
+            self.chrome_options.add_argument(
+                "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36")
 
-        self.driver = webdriver.Chrome(
-            chrome_options=self.chrome_options, executable_path=ChromeDriverManager().install())
+            self.driver = webdriver.Chrome(
+                chrome_options=self.chrome_options, executable_path=ChromeDriverManager().install())
+
+        except Exception as e:
+            print(e)
+            print("Could not start the driver")
 
     def is_logged_in(self):
         print("Checking if logged in")
