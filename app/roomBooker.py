@@ -21,17 +21,16 @@ class RoomBooker:
         chrome_options.add_argument("window-size=1920,1080")
         chrome_options.add_argument("disable-dev-shm-usage")
 
+
         chrome_options.add_argument(
             "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36")
 
         self.driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()), options=chrome_options)
 
-        self.driver.implicitly_wait(5000)
+        load_dotenv()
 
                 
-
-
 
     def is_logged_in(self):
         print("Checking if logged in")
@@ -43,6 +42,7 @@ class RoomBooker:
             return False
 
     def login(self, p, u):
+        print("Logging in")
 
         self.driver.implicitly_wait(5000)
         link = "https://mail.uio.no/owa/#path=/calendar"
@@ -326,7 +326,6 @@ class RoomBooker:
     def update_availability(self):
         if self.is_logged_in() == False:
             d = Decrypt()
-            load_dotenv()
             p = os.environ['PASS_KEY']
             u = os.environ['USER_KEY']
             if not p:

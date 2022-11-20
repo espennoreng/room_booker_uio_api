@@ -17,7 +17,16 @@ room = RoomBooker()
 # create a thread to run the scheduler
 
 
+def run_scheduler():
+    schedule.every(30).minutes.do(room.update_availability)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
+
+# start the thread
+t = Thread(target=run_scheduler)
+t.start()
 
 
 @app.route('/get-rooms', methods=['POST'])
